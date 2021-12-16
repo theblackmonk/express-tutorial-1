@@ -12,7 +12,7 @@ app.set('view engine', 'ejs')
 app.get('/', (req, res) => {
     //code runs whenever we try and access this url
     console.log("Here")
-    res.render("index", { text: 'yes' })    //second parameter is an object it takes
+    res.render("index", { text: 'yay', how: 'yer' })    //second parameter is an object it takes, view files are in their folder
     
     //res.json({ message: "Error" })
     //res.sendStatus(500).send('Hi') //this code means there is an error
