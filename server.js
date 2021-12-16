@@ -21,8 +21,19 @@ app.get('/', (req, res) => {
     //res.status(500).json({ message: "Error"})
 })
 
-//const userRouter = require('./routes/users')
-//app.use('/users', userRouter)
+/*app.get('/users', (req, res) => {   // put this in user file so we can later import this into our main file
+    res.send('User List')             //this user will get called from the routes file  
+})
+
+app.get('/users/new', (req, res) => {
+    res.send('User New Form')
+}) */
+
+
+
+const userRouter = require('./routes/users')
+app.use('/users', userRouter)   //main uses cases, but can link a route to a path 
+//('where we mount this router', pass in the router)
 
 //app listens for request at this port
 app.listen(3000)
