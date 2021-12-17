@@ -8,6 +8,7 @@ const app = express()
 //first param is path, second param is function
 
 app.set('view engine', 'ejs')
+app.use(logger)  //first middleware
 
 app.get('/', (req, res) => {
     //code runs whenever we try and access this url
@@ -34,6 +35,13 @@ app.get('/users/new', (req, res) => {
 const userRouter = require('./routes/users')
 app.use('/users', userRouter)   //main uses cases, but can link a route to a path 
 //('where we mount this router', pass in the router)
+
+//all express takes, req, res, next. next is noramlly used only in middleware
+function logger(req, res, next) {
+    console.log(req.originalUrl)
+    next()
+}
+
 
 //app listens for request at this port
 app.listen(3000)
