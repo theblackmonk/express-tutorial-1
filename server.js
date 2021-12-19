@@ -1,19 +1,33 @@
-const express = require('express') //require in the express we just installed
-const app = express()
+//--------------------------express js tutorial -------------------------------------------//
+//Create package.json with npm init -y
+//Install express in terminal with npm i express
+//Make changes to server without restarting: npm i --save-dev nodemon
+const express = require('express')   //require in the express we just installed
+const app = express()               //create an instance of express
 
-//app.get, host, put, delete, patch  (http methods)
-//common calls
+//This instance can call a number of http methods
+//commonly .get, .host, .put, .delete, .patch
 
-//here we setup a route and call a specific method
-//first param is path, second param is function
 
-app.set('view engine', 'ejs')
-app.use(logger)  //first middleware
+//We must choose a view engine if we want to use embedded JS in our HTML
+app.set('view engine', 'ejs') 
+app.use(logger)  //first middleware function //everything will execute after middleware
 
-app.get('/', (req, res) => {
+//all middleware takes, req, res, next. Next is normally only used with middleware
+function logger(req, res, next) {
+    console.log(req.originalUrl)
+    next()
+}
+
+app.use(express.static("public")) //serves all files from public folder (html files)
+app.use(express.urlencoded({ extended: true })) //allows utilization of info coming from forms
+app.use(express.json()) //allows you to parse json info from body
+
+//first parameter is path, next parameter is function
+app.get('/', logger, logger, logger, (req, res) => {          
     //code runs whenever we try and access this url
     console.log("Here")
-    res.render("index", { text: 'yay', how: 'yer' })    //second parameter is an object it takes, view files are in their folder
+    res.render("tt.html", { text: 'yay', how: 'yer' })    //second parameter is an object it takes, view files are in their folder
     
     //res.json({ message: "Error" })
     //res.sendStatus(500).send('Hi') //this code means there is an error
@@ -36,11 +50,7 @@ const userRouter = require('./routes/users')
 app.use('/users', userRouter)   //main uses cases, but can link a route to a path 
 //('where we mount this router', pass in the router)
 
-//all express takes, req, res, next. next is noramlly used only in middleware
-function logger(req, res, next) {
-    console.log(req.originalUrl)
-    next()
-}
+
 
 
 //app listens for request at this port

@@ -1,16 +1,30 @@
 const express = require("express")
 const router = express.Router()  //mini app/router that exists only in this file
 
+router.use(logger);
+
 router.get("/", (req, res) => {
-    res.send("User List")
+    console.log(req.query.name) //grab name from url
+    //res.send("User List")
 })
 
 router.get("/new", (req, res) => {
-    res.send("User New Form")
+    res.render("users/new", { firstName: "Test" })
+    //can't do res.render and res.send together
 })
 
 router.post('/', (req, res) => {
-    res.send('Create User')
+    //res.send('Create User')
+    const isValid = true
+    if(isValid) {
+        users.push({ firstName: req.body.firstName })
+        res.redirect(`/users/${users.length - 1}`)
+    } else {
+        console.log("Error")
+        res.render("users/new", { firstName: req.body.firstName })
+    }
+    console.log(req.body.firstName)
+    res.send('Hi')
 })
 
 //Put static routes ^ above dynamic routes
@@ -54,7 +68,13 @@ const users = [{name: 'Kyle'}, {name: 'Billy'}]
 // middleware. Runs between request and response
 router.param("id", (req, res, next, id) => {
     req.user = users[id] //anytime we pass in an id. Get it from our user variable
-    next() //goes on to the next piece of middleware
+    next() //goes on to the next piece of 
+    //allows us to assign user names to an id and pass that to any function after
 })    
+
+function logger(req, res, next) {
+    console.log(req.originalUrl)
+    next()
+}
 
 module.exports = router
